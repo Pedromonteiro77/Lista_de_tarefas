@@ -44,6 +44,8 @@ void addTask(std::vector<std::string> & task, std::string & text, char & opc) {
     for(auto i = 0; i < task.size(); i++) {
         std::cout << (i + 1) << " - " << task[i] << std::endl;
     }
+
+    std::cout << std::endl;
 }
 
 void removeTask(std::vector<std::string> & task, std::string & text, char & opc, int & indice) {
@@ -55,6 +57,7 @@ void removeTask(std::vector<std::string> & task, std::string & text, char & opc,
         while(true) {
             std::cout << "Digite o numero da tarefa que deseja remover: ";
             std::cin >> indice;
+            std::cin.ignore();
 
             if(indice >= 1 && indice <= task.size()) {
                 task.erase(task.begin() + (indice - 1));
@@ -62,7 +65,9 @@ void removeTask(std::vector<std::string> & task, std::string & text, char & opc,
                 std::cout << "Tarefa excluida com sucesso!" << std::endl;
             }
             else {
-                std::cout << "Numero INVALIDO! digite o numero de uma tarefa valido.";
+                std::cerr << "Numero INVALIDO! digite o numero de uma tarefa valido." << std::endl;
+                std::cout << "Aperte Enter para continuar...";
+                std::cin.get();
                 continue;
             }              
         
