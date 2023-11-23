@@ -72,8 +72,9 @@ void ListaDeTarefas::deleteTask() {
 
         std::cout << "Digite o indice da tarefa que deseja excluir: ";
         std::cin >> index;
+        std::cin.ignore();
 
-        if(index < 1 && index < tasksList_.size()) {
+        if(index < 1 || index > tasksList_.size()) {
             std::cout << "Invalido!" << '\n';
             std::cout << "Aperte Enter para continuar...";
             std::cin.get();
