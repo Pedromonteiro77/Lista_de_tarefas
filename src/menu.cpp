@@ -1,19 +1,49 @@
 #include <iostream>
-#include "..\header\lista_de_tarefas.hpp"
+#include <cctype>
+#include "..\header\screen_clear.h"
+#include "..\header\to_do_list.h"
 
-// Construtor da Class Menu
-Menu::Menu() : option(0) {}
+// Construtor da classe Menu.
+Menu::Menu() : option_(0) {}
 
-// Função que mostra o menu e permite o usuario escolher uma opção
-void Menu::menuOptions() {
-    std::cout << "=== Lista de Tarefas ===" << '\n';
-    std::cout << "1 - Adicionar tarefa" << '\n';
-    std::cout << "2 - Excluir tarefa" << '\n';
-    std::cout << "3 - Mostrar lista de tarefas" << '\n';
-    std::cout << "4 - Sair" << '\n';
+// Função que Mostra o Menu para o usuario escolher uma opção.
+unsigned int Menu::fnMenu()
+{   
+    std::string strOption;
 
-    std::cout << "Escolha uma das opcoes: ";
-    std::cin >> option;
-    std::cin.ignore();
-    std::system("cls");
+    while(true)
+    {
+        try
+        {
+            std::cout << "===== Options Menu =====" << '\n';
+            std::cout << "1 - Add task to list" << '\n';
+            std::cout << "2 - Show To-do list" << '\n';
+            std::cout << "3 - Delete a Task" << '\n';
+            std::cout << "4 - Exit" << '\n';
+  
+            std::cout << "Choose an option: ";
+            std::cin >> strOption;
+            std::cin.ignore();
+
+            if(!(strOption == "1" || strOption == "2" || strOption == "3" || strOption == "4"))
+            {
+                throw std::invalid_argument("INVALID! Please choose one of the options.");
+            }
+
+            break;
+        }
+        
+        catch(const std::invalid_argument & e)
+        {
+            std::cerr << e.what() << '\n';
+            std::cout << "Press Enter to continue...";
+            std::cin.get();
+            ScreenClear::clear();
+            continue;
+        }
+    }
+
+    option_ = std::stoi(strOption);
+
+    return option_;
 }
