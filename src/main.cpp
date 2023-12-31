@@ -7,10 +7,10 @@ int main()
     Menu objMenu;
     To_DoList objList;
 
-    ScreenClear::clear();
-    
     while(true)
     {
+        ScreenClear::clear();
+        
         int menuChoose = objMenu.fnMenu();
 
         if(menuChoose == 1)
@@ -22,20 +22,20 @@ int main()
         if(menuChoose == 2)
         {
             ScreenClear::clear();
-            std::list<std::string> isTheListEmpty = objList.showList();
-            std::cout << '\n';
             
-            if(!isTheListEmpty.empty())
+            objList.showList();
+
+            if(!objList.getList().empty())
             {
                 std::cout << "Press Enter to continue...";
                 std::cin.get();
-                ScreenClear::clear();
             }
         }
 
         if(menuChoose == 3)
         {
-
+            ScreenClear::clear();
+            objList.deleteTask();
         }
 
         if(menuChoose == 4)

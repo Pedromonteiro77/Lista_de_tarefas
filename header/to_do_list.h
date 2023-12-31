@@ -1,7 +1,7 @@
 #pragma once
 
-#include <list>
 #include <string>
+#include <vector>
 
 class Menu
 {
@@ -18,14 +18,16 @@ public:
 class To_DoList
 {
 private:
-    std::list<std::string> list_;
+    std::vector<std::string> list_;
     std::string text_;
 
 public:
     To_DoList();
     ~To_DoList() = default;
 
-    std::list<std::string> showList();
+    void showList() const;
     void addTaskToList();
     void deleteTask();
+
+    const std::vector<std::string> getList() const;
 };

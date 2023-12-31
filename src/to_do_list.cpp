@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include "..\header\screen_clear.h"
 #include "..\header\to_do_list.h"
 
@@ -6,7 +7,7 @@
 To_DoList::To_DoList() : list_({}), text_("") {}
 
 // Função que mostra a Lista de tarefas e mostra um aviso caso ela esteja vazia.
-std::list<std::string> To_DoList::showList()
+void To_DoList::showList() const
 {
     if(list_.empty())
     {
@@ -16,14 +17,12 @@ std::list<std::string> To_DoList::showList()
         ScreenClear::clear();
     }
 
-    unsigned int i = 0;
+    unsigned int c = 1;
     std::cout << "=== To-do List ===" << '\n';
-    for(auto it = list_.begin(); it != list_.end(); it++)
+    for(auto & i : list_)
     {
-        std::cout << ++i << " - " << *it << '\n';      
+        std::cout << c++ << " - " << i << '\n';     
     }
-
-    return list_;
 }
 
 // Função que adiciona uma tarefa a lista 
@@ -62,6 +61,7 @@ void To_DoList::addTaskToList()
                     std::cout << "Please type Y or N" << '\n';
                     std::cout << "Press Enter to continue...";
                     std::cin.get();
+                    yesOrNot.clear();
                     ScreenClear::clear();
                     continue;
                 }
@@ -94,6 +94,7 @@ void To_DoList::addTaskToList()
                     std::cout << "Please type Y or N" << '\n';
                     std::cout << "Press Enter to continue...";
                     std::cin.get();
+                    yesOrNot.clear();
                     ScreenClear::clear();
                     continue;
                 }
@@ -130,6 +131,72 @@ void To_DoList::deleteTask()
 {
     while(true)
     {
-        showList();
+        try
+        {
+            showList();
+
+            if(list_.empty())
+            {
+                ScreenClear::clear();
+                break;
+            }
+
+            unsigned int Taskposition;
+            std::cout << "Choose the number of task that you want to delete: ";
+            std::cin >> Taskposition;
+
+            if(!Taskposition == list_.size())
+            {
+                throw std::invalid_argument("INVALID!");
+            }
+
+            list_.erase(std::remove(list_.begin(), list_.end(), list_[Taskposition-1]), list_.end());
+
+            ScreenClear::clear();
+
+            std::string yesOrNot;
+            while(true)
+            {
+                showList();
+
+                std::cout << "Do you want to delete another task? (Y/N): ";
+                std::cin >> yesOrNot;
+                std::cin.ignore(); 
+
+                if(!(yesOrNot == "y" || yesOrNot == "Y" || yesOrNot == "n" || yesOrNot == "N"))
+                {
+                    std::cout << "Please type Y or N" << '\n';
+                    std::cout << "Press Enter to continue...";
+                    std::cin.get();
+                    yesOrNot.clear();
+                    ScreenClear::clear();
+                    continue;
+                }
+
+                break;
+            }
+
+            if(yesOrNot == "y" || yesOrNot == "Y")
+            {
+                ScreenClear::clear();
+                continue;
+            }
+
+            break;
+        }
+
+        catch(const std::invalid_argument & e)
+        {
+            std::cerr << e.what() << '\n';
+            std::cout << "Press Enter to continue...";
+            std::cin.get();
+            ScreenClear::clear();
+            continue;
+        }
     }
+}
+
+const std::vector<std::string> To_DoList::getList() const
+{
+    return list_;
 }
