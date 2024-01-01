@@ -7,7 +7,7 @@
 To_DoList::To_DoList() : list_({}), text_("") {}
 
 // Função que mostra a Lista de tarefas e mostra um aviso caso ela esteja vazia.
-void To_DoList::showList() const
+void To_DoList::showList()
 {
     if(list_.empty())
     {
